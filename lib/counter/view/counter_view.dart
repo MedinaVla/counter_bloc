@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,12 +15,30 @@ class CounterView extends StatelessWidget {
         title: const Text('Counter Bloc'),
       ),
       body: Center(
-        child: BlocBuilder<CounterBloc, int>(builder: (context, state) {
-          return Text(
-            '$state',
-            style: const TextStyle(fontSize: 20),
-          );
-        }),
+        // child: BlocListener<CounterBloc, int>(
+        //   listener: (context, state) {
+        //     ScaffoldMessenger.of(context)
+        //       ..hideCurrentSnackBar()
+        //       ..showSnackBar(SnackBar(content: Text('counter: $state')));
+        //   },
+        //   child: BlocBuilder<CounterBloc, int>(builder: (context, state) {
+        //     return Text(
+        //       '$state',
+        //       style: const TextStyle(fontSize: 20),
+        //     );
+        //   }),
+        // ),
+        child: BlocConsumer<CounterBloc, CounterState>(
+            builder: (context, state) {
+              log('message ${state.count}');
+              return Text('You have pushed the button ${state.count} times');
+            },
+            listener: (context, state) =>
+                ScaffoldMessenger.of(context)..hideCurrentSnackBar()
+            // ..showSnackBar(SnackBar(
+            //   content: Text('counter $state'),
+            // )),
+            ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

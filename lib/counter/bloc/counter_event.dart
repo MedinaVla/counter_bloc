@@ -1,11 +1,8 @@
 part of 'counter_bloc.dart';
 
 @immutable
-abstract class CounterEvent extends Equatable {
+abstract class CounterEvent {
   const CounterEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class CounterIncrementPressed extends CounterEvent {}
