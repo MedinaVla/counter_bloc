@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/counter_bloc.dart';
+import '../widgets/widgets.dart';
 
 class CounterView extends StatelessWidget {
   const CounterView({Key? key}) : super(key: key);
@@ -11,52 +10,56 @@ class CounterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Counter Bloc'),
-      ),
       body: Center(
-        // child: BlocListener<CounterBloc, int>(
-        //   listener: (context, state) {
-        //     ScaffoldMessenger.of(context)
-        //       ..hideCurrentSnackBar()
-        //       ..showSnackBar(SnackBar(content: Text('counter: $state')));
-        //   },
-        //   child: BlocBuilder<CounterBloc, int>(builder: (context, state) {
-        //     return Text(
-        //       '$state',
-        //       style: const TextStyle(fontSize: 20),
-        //     );
-        //   }),
-        // ),
-        child: BlocConsumer<CounterBloc, CounterState>(
-            builder: (context, state) {
-              log('message ${state.count}');
-              return Text('You have pushed the button ${state.count} times');
-            },
-            listener: (context, state) =>
-                ScaffoldMessenger.of(context)..hideCurrentSnackBar()
-            // ..showSnackBar(SnackBar(
-            //   content: Text('counter $state'),
-            // )),
-            ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Stack(
         children: [
-          FloatingActionButton(
-            key: const Key('counterView_increment_floatingActionButton'),
-            child: const Icon(Icons.add),
-            onPressed: () =>
-                context.read<CounterBloc>().add(CounterIncrementPressed()),
+          Image.asset(
+            'assets/images/background.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
-          FloatingActionButton(
-            key: const Key('counterView_decrement_floatingActionButton'),
-            child: const Icon(Icons.remove),
-            onPressed: () =>
-                context.read<CounterBloc>().add(CounterDecrementPressed()),
-          ),
+          const CardGlass(),
+          Positioned(
+            bottom: 50,
+            left: 100,
+            right: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () => context
+                      .read<CounterBloc>()
+                      .add(CounterIncrementPressed()),
+                  child: const GlassMorphism(
+                      radius: 50,
+                      blur: 20,
+                      opacity: 0.2,
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: Icon(Icons.add),
+                      )),
+                ),
+                GestureDetector(
+                  onTap: () => context
+                      .read<CounterBloc>()
+                      .add(CounterDecrementPressed()),
+                  child: const GlassMorphism(
+                      radius: 50,
+                      blur: 20,
+                      opacity: 0.2,
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: Icon(Icons.remove),
+                      )),
+                ),
+              ],
+            ),
+          )
         ],
-      ),
+      )),
     );
   }
 }
