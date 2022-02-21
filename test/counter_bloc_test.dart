@@ -22,11 +22,19 @@ void main() {
             ]);
 
     blocTest<CounterBloc, CounterState>(
-        'emmit -1 when CounterDecrementPressed is added',
+        'emit -1 when CounterDecrementPressed is added',
         build: () => counterBloc,
         act: (bloc) => bloc.add(CounterDecrementPressed()),
         expect: () => [
               const CounterSucces(count: -1),
             ]);
+
+    blocTest<CounterBloc, CounterState>(
+      'emit 10 when CounterIncrementPressed is added and',
+      build: () => counterBloc,
+      seed: () => const CounterSucces(count: 9),
+      act: (bloc) => bloc.add(CounterIncrementPressed()),
+      expect: () => [const CounterSucces(count: 10)],
+    );
   });
 }
