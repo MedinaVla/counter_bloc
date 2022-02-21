@@ -20,5 +20,13 @@ void main() {
         expect: () => [
               const CounterSucces(count: 1),
             ]);
+
+    blocTest<CounterBloc, CounterState>(
+        'emmit -1 when CounterDecrementPressed is added',
+        build: () => counterBloc,
+        act: (bloc) => bloc.add(CounterDecrementPressed()),
+        expect: () => [
+              const CounterSucces(count: -1),
+            ]);
   });
 }
